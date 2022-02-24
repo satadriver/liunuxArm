@@ -1,0 +1,184 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         
+    2 00000000 56000028 
+                       UBRDIV0 equ              0x56000028
+    3 00000000 56000070 
+                       GPHCON  equ              0x56000070
+    4 00000000 56000000 
+                       ULCON0  equ              0x56000000
+    5 00000000 000000F0 
+                       GPH_MSK equ              (15<<4)
+    6 00000000 000000A0 
+                       GPH_URAT
+                               equ              (10<<4)
+    7 00000000 56000020 
+                       UTXH0   equ              0x56000020
+    8 00000000 56000024 
+                       URXH0   equ              0x56000024
+    9 00000000         
+   10 00000000                 export           __uartInit
+   11 00000000                 export           __uartSend
+   12 00000000                 export           __uartRecv
+   13 00000000         
+   14 00000000                 PRESERVE8
+   15 00000000                 AREA             CODE, CODE, READONLY
+   16 00000000         
+   17 00000000         __uartInit
+   18 00000000 E92D400F        stmfd            sp!,{r0-r3,r14}
+   19 00000004         
+   20 00000004 E59F0048        ldr              r0,=GPHCON
+   21 00000008 E5901000        ldr              r1,[r0]
+   22 0000000C E20110F0        and              r1,r1,#0xf0
+   23 00000010 E38110A0        orr              r1,r1,#0xa0 ;eor == xor orr = o
+                                                            r
+   24 00000014 E5801000        str              r1,[r0]
+   25 00000018         
+   26 00000018 E59F0038        ldr              r0,=UBRDIV0
+   27 0000001C E3A0101A        mov              r1,#0x1a
+   28 00000020 E5801000        str              r1,[r0]
+   29 00000024         
+   30 00000024 E3A00456        ldr              r0,=ULCON0
+   31 00000028 E3A01003        mov              r1,#0x3
+   32 0000002C E5801000        str              r1,[r0]
+   33 00000030         
+   34 00000030 E8BD800F        ldmfd            sp!,{r0-r3,pc}
+   35 00000034         
+   36 00000034         
+   37 00000034         __uartSend
+   38 00000034 E92D400F        stmfd            sp!,{r0-r3,r14}
+   39 00000038         
+   40 00000038 E59F101C        ldr              r1,=UTXH0
+   41 0000003C E5810000        str              r0,[r1]
+   42 00000040         
+   43 00000040 E8BD800F        ldmfd            sp!,{r0-r3,pc}
+   44 00000044         
+   45 00000044         
+   46 00000044         __uartRecv
+   47 00000044 E92D400F        stmfd            sp!,{r0-r3,r14}
+   48 00000048         
+   49 00000048 E59F1010        ldr              r1,=URXH0
+   50 0000004C E5910000        ldr              r0,[r1]
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+   51 00000050         
+   52 00000050 E8BD800F        ldmfd            sp!,{r0-r3,pc}
+   53 00000054                 END
+              56000070 
+              56000028 
+              56000020 
+              56000024 
+Command Line: --debug --xref --cpu=ARM920T --apcs=interwork --depend=uart.d -ou
+art.o -Id:\arm\Keil_v4\ARM\RV31\INC -Id:\arm\Keil_v4\ARM\CMSIS\Include -Id:\arm
+\Keil_v4\ARM\Inc\Samsung --predefine="__EVAL SETA 1" --list=uart.lst uart.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+CODE 00000000
+
+Symbol: CODE
+   Definitions
+      At line 15 in file uart.s
+   Uses
+      None
+Comment: CODE unused
+__uartInit 00000000
+
+Symbol: __uartInit
+   Definitions
+      At line 17 in file uart.s
+   Uses
+      At line 10 in file uart.s
+Comment: __uartInit used once
+__uartRecv 00000044
+
+Symbol: __uartRecv
+   Definitions
+      At line 46 in file uart.s
+   Uses
+      At line 12 in file uart.s
+Comment: __uartRecv used once
+__uartSend 00000034
+
+Symbol: __uartSend
+   Definitions
+      At line 37 in file uart.s
+   Uses
+      At line 11 in file uart.s
+Comment: __uartSend used once
+4 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+GPHCON 56000070
+
+Symbol: GPHCON
+   Definitions
+      At line 3 in file uart.s
+   Uses
+      At line 20 in file uart.s
+Comment: GPHCON used once
+GPH_MSK 000000F0
+
+Symbol: GPH_MSK
+   Definitions
+      At line 5 in file uart.s
+   Uses
+      None
+Comment: GPH_MSK unused
+GPH_URAT 000000A0
+
+Symbol: GPH_URAT
+   Definitions
+      At line 6 in file uart.s
+   Uses
+      None
+Comment: GPH_URAT unused
+UBRDIV0 56000028
+
+Symbol: UBRDIV0
+   Definitions
+      At line 2 in file uart.s
+   Uses
+      At line 26 in file uart.s
+Comment: UBRDIV0 used once
+ULCON0 56000000
+
+Symbol: ULCON0
+   Definitions
+      At line 4 in file uart.s
+   Uses
+      At line 30 in file uart.s
+Comment: ULCON0 used once
+URXH0 56000024
+
+Symbol: URXH0
+   Definitions
+      At line 8 in file uart.s
+   Uses
+      At line 49 in file uart.s
+Comment: URXH0 used once
+UTXH0 56000020
+
+Symbol: UTXH0
+   Definitions
+      At line 7 in file uart.s
+   Uses
+      At line 40 in file uart.s
+Comment: UTXH0 used once
+7 symbols
+344 symbols in table

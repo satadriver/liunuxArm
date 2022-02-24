@@ -1,0 +1,235 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         
+    2 00000000         
+    3 00000000                 export           __enableInt
+    4 00000000                 export           __intHandler
+    5 00000000                 export           __unmaskInt
+    6 00000000         
+    7 00000000 4A000000 
+                       INT_BASE
+                               EQU              0X4A000000
+    8 00000000 4A000000 
+                       SRC_PND EQU              (INT_BASE + 0)
+    9 00000000 4A000008 
+                       INT_MASK
+                               EQU              (INT_BASE + 8)
+   10 00000000 4A000010 
+                       INT_PND EQU              (INT_BASE + 0X10)
+   11 00000000 4A000014 
+                       INT_OFFSET
+                               EQU              (INT_BASE + 0X14)
+   12 00000000         
+   13 00000000 51000000 
+                       TCFG0   EQU              0X51000000
+   14 00000000 51000004 
+                       TCFG1   EQU              0X51000004
+   15 00000000 51000008 
+                       TCON    EQU              0X51000008
+   16 00000000 5100003C 
+                       TCNTB4  EQU              0X5100003C
+   17 00000000         
+   18 00000000         
+   19 00000000         
+   20 00000000                 PRESERVE8
+   21 00000000                 AREA             CODE, CODE, READONLY
+   22 00000000         
+   23 00000000         __enableInt
+   24 00000000 E92D400F        stmfd            sp!,{r0-r3,r14}
+   25 00000004         
+   26 00000004 E10F0000        mrs              r0,cpsr
+   27 00000008 E3C00080        bic              r0,r0,#0x80
+   28 0000000C E121F000        msr              cpsr_C,r0
+   29 00000010         
+   30 00000010 E8BD800F        ldmfd            sp!,{r0-r3,pc}
+   31 00000014         
+   32 00000014         
+   33 00000014         __intHandler
+   34 00000014 E92D400F        stmfd            sp!,{r0-r3,r14}
+   35 00000018         
+   36 00000018 E59F0040        ldr              r0,=INT_OFFSET
+   37 0000001C E5901000        ldr              r1,[r0]
+   38 00000020 E3A02001        mov              r2,#1
+   39 00000024 E1A02112        mov              r2,r2,lsl r1 ;lsl = asl; lsr !=
+                                                             asr,asr keep magni
+                                                            ficant bit; ror = r
+                                                            otate right roll
+   40 00000028         
+   41 00000028 E3A0044A        ldr              r0,=SRC_PND
+   42 0000002C E5901000        ldr              r1,[r0]
+   43 00000030 E1811002        orr              r1,r1,r2
+   44 00000034 E5801000        str              r1,[r0]
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+   45 00000038         
+   46 00000038 E59F0024        ldr              r0,=INT_PND
+   47 0000003C E5901000        ldr              r1,[r0]
+   48 00000040 E1811002        orr              r1,r1,r2
+   49 00000044 E5801000        str              r1,[r0]
+   50 00000048         
+   51 00000048 E8BD800F        ldmfd            sp!,{r0-r3,pc}
+   52 0000004C         
+   53 0000004C         __unmaskInt
+   54 0000004C E92D400F        stmfd            sp!,{r0-r3,r14}
+   55 00000050         
+   56 00000050 E59F0010        ldr              r0,=INT_MASK
+   57 00000054 E3A01000        mov              r1,#0
+   58 00000058 E5801000        str              r1,[r0]
+   59 0000005C         
+   60 0000005C E8BD800F        ldmfd            sp!,{r0-r3,pc}
+   61 00000060         
+   62 00000060         __initTimer4
+   63 00000060         
+   64 00000060         
+   65 00000060                 END
+              4A000014 
+              4A000010 
+              4A000008 
+Command Line: --debug --xref --cpu=ARM920T --apcs=interwork --depend=interrupti
+on.d -ointerruption.o -Id:\arm\Keil_v4\ARM\RV31\INC -Id:\arm\Keil_v4\ARM\CMSIS\
+Include -Id:\arm\Keil_v4\ARM\Inc\Samsung --predefine="__EVAL SETA 1" --list=int
+erruption.lst interruption.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+CODE 00000000
+
+Symbol: CODE
+   Definitions
+      At line 21 in file interruption.s
+   Uses
+      None
+Comment: CODE unused
+__enableInt 00000000
+
+Symbol: __enableInt
+   Definitions
+      At line 23 in file interruption.s
+   Uses
+      At line 3 in file interruption.s
+Comment: __enableInt used once
+__initTimer4 00000060
+
+Symbol: __initTimer4
+   Definitions
+      At line 62 in file interruption.s
+   Uses
+      None
+Comment: __initTimer4 unused
+__intHandler 00000014
+
+Symbol: __intHandler
+   Definitions
+      At line 33 in file interruption.s
+   Uses
+      At line 4 in file interruption.s
+Comment: __intHandler used once
+__unmaskInt 0000004C
+
+Symbol: __unmaskInt
+   Definitions
+      At line 53 in file interruption.s
+   Uses
+      At line 5 in file interruption.s
+Comment: __unmaskInt used once
+5 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+INT_BASE 4A000000
+
+Symbol: INT_BASE
+   Definitions
+      At line 7 in file interruption.s
+   Uses
+      At line 8 in file interruption.s
+      At line 9 in file interruption.s
+      At line 10 in file interruption.s
+      At line 11 in file interruption.s
+
+INT_MASK 4A000008
+
+Symbol: INT_MASK
+   Definitions
+      At line 9 in file interruption.s
+   Uses
+      At line 56 in file interruption.s
+Comment: INT_MASK used once
+INT_OFFSET 4A000014
+
+Symbol: INT_OFFSET
+   Definitions
+      At line 11 in file interruption.s
+   Uses
+      At line 36 in file interruption.s
+Comment: INT_OFFSET used once
+INT_PND 4A000010
+
+Symbol: INT_PND
+   Definitions
+      At line 10 in file interruption.s
+   Uses
+      At line 46 in file interruption.s
+Comment: INT_PND used once
+SRC_PND 4A000000
+
+Symbol: SRC_PND
+   Definitions
+      At line 8 in file interruption.s
+   Uses
+      At line 41 in file interruption.s
+Comment: SRC_PND used once
+TCFG0 51000000
+
+Symbol: TCFG0
+   Definitions
+      At line 13 in file interruption.s
+   Uses
+      None
+Comment: TCFG0 unused
+TCFG1 51000004
+
+Symbol: TCFG1
+   Definitions
+      At line 14 in file interruption.s
+   Uses
+      None
+Comment: TCFG1 unused
+
+
+
+ARM Macro Assembler    Page 2 Alphabetic symbol ordering
+Absolute symbols
+
+TCNTB4 5100003C
+
+Symbol: TCNTB4
+   Definitions
+      At line 16 in file interruption.s
+   Uses
+      None
+Comment: TCNTB4 unused
+TCON 51000008
+
+Symbol: TCON
+   Definitions
+      At line 15 in file interruption.s
+   Uses
+      None
+Comment: TCON unused
+9 symbols
+347 symbols in table

@@ -1,0 +1,121 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         
+    2 00000000         
+    3 00000000 40000000 
+                       MEM_LOAD_BASE
+                               EQU              0X40000000
+    4 00000000 40001000 
+                       PAGE_TABLE_ENTRY
+                               EQU              (MEM_LOAD_BASE + 0X1000)
+    5 00000000         
+    6 00000000 C0000000 
+                       VIRTUAL_MEM_BASE
+                               EQU              0XC0000000
+    7 00000000         
+    8 00000000                 export           __initMemoryProc
+    9 00000000         
+   10 00000000         
+   11 00000000         
+   12 00000000         
+   13 00000000         
+   14 00000000         
+   15 00000000                 PRESERVE8
+   16 00000000                 AREA             CODE, CODE, READONLY
+   17 00000000         
+   18 00000000         
+   19 00000000         __initMemoryProc
+   20 00000000         
+   21 00000000         ;import resetHandlerC
+   22 00000000         ;bl resetHandlerC
+   23 00000000         
+   24 00000000 E92D400F        stmfd            sp!,{r0-r3,r14}
+   25 00000004         
+   26 00000004 E59F0030        ldr              r0,=PAGE_TABLE_ENTRY
+   27 00000008 E3A01103        LDR              R1,=VIRTUAL_MEM_BASE
+   28 0000000C E3811012        ORR              R1,R1,#0X12
+   29 00000010 E5801000        STR              R1,[R0]
+   30 00000014         
+   31 00000014         
+   32 00000014         
+   33 00000014 E59F0020        ldr              r0,=PAGE_TABLE_ENTRY
+   34 00000018         ;use p15 but not P15,use lowercase
+   35 00000018 EE020F10        MCR              p15,0,R0,c2,c0,0
+   36 0000001C E3E00000        MVN              R0,#0
+   37 00000020 EE030F10        MCR              p15,0,r0,c3,c0,0
+   38 00000024 E3A00001        MOV              R0,#1
+   39 00000028 EE010F10        MCR              p15,0,r0,c1,c0,0
+   40 0000002C         
+   41 0000002C E3A01103        LDR              R1,=VIRTUAL_MEM_BASE
+   42 00000030 E3A000FF        MOV              R0,#0XFF
+   43 00000034 E5810000        STR              R0,[R1]
+   44 00000038         
+   45 00000038 E8BD800F        ldmfd            sp!,{r0-r3,pc}
+   46 0000003C         
+   47 0000003C                 END
+              40001000 
+Command Line: --debug --xref --cpu=ARM920T --apcs=interwork --depend=memory.d -
+omemory.o -Id:\arm\Keil_v4\ARM\RV31\INC -Id:\arm\Keil_v4\ARM\CMSIS\Include -Id:
+\arm\Keil_v4\ARM\Inc\Samsung --predefine="__EVAL SETA 1" --list=memory.lst memo
+ry.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+CODE 00000000
+
+Symbol: CODE
+   Definitions
+      At line 16 in file memory.s
+   Uses
+      None
+Comment: CODE unused
+__initMemoryProc 00000000
+
+Symbol: __initMemoryProc
+   Definitions
+      At line 19 in file memory.s
+   Uses
+      At line 8 in file memory.s
+Comment: __initMemoryProc used once
+2 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+MEM_LOAD_BASE 40000000
+
+Symbol: MEM_LOAD_BASE
+   Definitions
+      At line 3 in file memory.s
+   Uses
+      At line 4 in file memory.s
+Comment: MEM_LOAD_BASE used once
+PAGE_TABLE_ENTRY 40001000
+
+Symbol: PAGE_TABLE_ENTRY
+   Definitions
+      At line 4 in file memory.s
+   Uses
+      At line 26 in file memory.s
+      At line 33 in file memory.s
+
+VIRTUAL_MEM_BASE C0000000
+
+Symbol: VIRTUAL_MEM_BASE
+   Definitions
+      At line 6 in file memory.s
+   Uses
+      At line 27 in file memory.s
+      At line 41 in file memory.s
+
+3 symbols
+338 symbols in table
